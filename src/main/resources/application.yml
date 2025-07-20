@@ -16,7 +16,16 @@ spring:
     password: admin
     enabled: true
     change-log: db/changelog/db.changelog-master.yaml
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: deferred
   jpa:
     properties:
       jdbc:
         time_zone: UTC
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+      hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+          implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
