@@ -1,17 +1,18 @@
 package com.demo.advanced.service;
 
 import com.demo.advanced.domain.client.Client;
-import com.demo.advanced.dto.ClientDTO;
+import com.demo.advanced.dto.request.ClientRequest;
+import com.demo.advanced.dto.response.ClientResponse;
 
 import java.util.List;
 
 public interface ClientService {
 
-	ClientDTO save(ClientDTO client);
+	ClientResponse save(ClientRequest client);
 
-	ClientDTO update(ClientDTO client);
+	ClientResponse update(ClientRequest client);
 
-	List<ClientDTO> findAll();
+	List<ClientResponse> findAll();
 
 	void delete(Long clientId);
 

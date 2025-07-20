@@ -18,7 +18,7 @@ public class AccountBank {
 
 	private Long id;
 
-	private AccountType accountType;
+	private AccountType type;
 
 	private Long number;
 
@@ -34,18 +34,18 @@ public class AccountBank {
 
 	public AccountBank validateCreation() {
 
-		final AccountType type = this.accountType;
-		if(type == null) {
+		final AccountType accountType = this.type;
+		if(accountType == null) {
 			throw new AccountBankException("El tipo de cuenta es obligatorio");
 		}
 
-		final boolean accountIsAhorros = AccountType.CUENTA_AHORROS.equals(type);
+		final boolean accountIsAhorros = AccountType.CUENTA_AHORROS.equals(accountType);
 
 		if(accountIsAhorros) {
 			this.setState(AccountState.ACTIVA);
 		}
 		else if(this.state == null) {
-			throw new AccountBankException("El estado de la cuenta es obligatorio, al ser una cuenta de tipo: " + type.toString());
+			throw new AccountBankException("El estado de la cuenta es obligatorio, al ser una cuenta de tipo: " + accountType);
 		}
 
 		if(this.balance == null || BigDecimal.ZERO.compareTo(this.balance) >= 0) {
@@ -58,17 +58,17 @@ public class AccountBank {
 			this.setModificationDate(null);
 		}
 
-		this.setNumber(generateRandonNumberAccount());
+		this.setNumber(generateRandomNumberAccount());
 		this.setCreationDate(ZonedDateTime.now().withNano(0));
 		return this;
 	}
 
-	public Long generateRandonNumberAccount() {
+	public Long generateRandomNumberAccount() {
 		final int random8Numbers = 10000000 + random.nextInt(99999999);
-		return Long.valueOf(this.accountType.getStartNumber() + String.valueOf(random8Numbers));
+		return Long.valueOf(this.type.getStartNumber() + String.valueOf(random8Numbers));
 	}
 
-	public AccountBank validateUpdate(final AccountBank accountBank) throws AccountBankException {
+	public AccountBank validateUpdate(final AccountBank accountBank) {
 
 		final AccountState stateToUpdate = this.state;
 		if(stateToUpdate == null) {
@@ -88,7 +88,7 @@ public class AccountBank {
 		return accountBank;
 	}
 
-	public void substractAmountToBalanceAccount(final BigDecimal amount) throws AccountBankException {
+	public void substractAmountToBalanceAccount(final BigDecimal amount) {
 
 		final BigDecimal subtractResult = this.getBalance().subtract(amount);
 

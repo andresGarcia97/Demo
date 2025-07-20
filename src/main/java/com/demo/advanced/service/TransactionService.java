@@ -1,13 +1,14 @@
 package com.demo.advanced.service;
 
-import com.demo.advanced.dto.TransactionDTO;
+import com.demo.advanced.dto.response.TransactionResponse;
+import com.demo.advanced.dto.request.TransactionRequest;
 
 import java.util.List;
 
 public interface TransactionService {
 
-	TransactionDTO saveAndFlush(TransactionDTO transactionDTO);
+	TransactionResponse saveAndFlush(TransactionRequest transactionResponse);
 
-	List<TransactionDTO> findAll();
+	List<TransactionResponse> findAll();
 
 }

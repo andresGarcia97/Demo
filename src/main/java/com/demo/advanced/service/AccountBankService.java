@@ -1,20 +1,21 @@
 package com.demo.advanced.service;
 
 import com.demo.advanced.domain.accountbank.AccountBank;
-import com.demo.advanced.dto.AccountBankDTO;
+import com.demo.advanced.dto.response.AccountBankResponse;
+import com.demo.advanced.dto.request.AccountBankRequest;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface AccountBankService {
 
-	AccountBankDTO save(AccountBankDTO accountBank);
+	AccountBankResponse save(AccountBankRequest accountBank);
 
-	AccountBankDTO update(AccountBankDTO accountBank);
+	AccountBankResponse update(AccountBankRequest accountBank);
 
-	List<AccountBankDTO> findAll();
+	List<AccountBankResponse> findAll();
 
-	Optional<AccountBank> findAccountBank(AccountBankDTO account);
+	Optional<AccountBank> findById(Long accountId);
 
 	void updateBalance(AccountBank account);
 

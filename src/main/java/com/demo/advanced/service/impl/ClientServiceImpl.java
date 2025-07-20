@@ -2,7 +2,8 @@ package com.demo.advanced.service.impl;
 
 import com.demo.advanced.domain.client.Client;
 import com.demo.advanced.domain.client.ClientException;
-import com.demo.advanced.dto.ClientDTO;
+import com.demo.advanced.dto.request.ClientRequest;
+import com.demo.advanced.dto.response.ClientResponse;
 import com.demo.advanced.entities.AccountBankEntity;
 import com.demo.advanced.entities.ClientEntity;
 import com.demo.advanced.repository.ClientRepository;
@@ -29,7 +30,7 @@ public class ClientServiceImpl implements ClientService {
 	private final ClientEntityMapper entityMapper;
 
 	@Override
-	public ClientDTO save(final ClientDTO client) {
+	public ClientResponse save(final ClientRequest client) {
 
 		final Client toValidate = domainMapper.toDomain(client).validateCreation();
 		final ClientEntity saved = clientRepository.save(entityMapper.toEntity(toValidate));
@@ -38,7 +39,7 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	@Override
-	public ClientDTO update(final ClientDTO client) {
+	public ClientResponse update(final ClientRequest client) {
 
 		final ClientEntity clientFound = clientRepository.findById(client.id())
 				.orElseThrow(() -> new ClientException(ClientException.CLIENT_NOT_EXIST));
@@ -51,7 +52,7 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<ClientDTO> findAll() {
+	public List<ClientResponse> findAll() {
 		return clientRepository.findAll().stream().map(queriesMapper::toDto).toList();
 	}
 

@@ -1,6 +1,7 @@
 package com.demo.advanced.controller;
 
-import com.demo.advanced.dto.TransactionDTO;
+import com.demo.advanced.dto.response.TransactionResponse;
+import com.demo.advanced.dto.request.TransactionRequest;
 import com.demo.advanced.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,15 +23,15 @@ public class TransactionResource {
 	private final TransactionService transactionService;
 
 	@PostMapping("")
-	public ResponseEntity<TransactionDTO> createTransaction(@RequestBody final TransactionDTO transaction) {
+	public ResponseEntity<TransactionResponse> createTransaction(@RequestBody final TransactionRequest transaction) {
 		log.info("REST request to generate transaction: {}", transaction);
-		final TransactionDTO resultTransaction = transactionService.saveAndFlush(transaction);
+		final TransactionResponse resultTransaction = transactionService.saveAndFlush(transaction);
 		log.info("REST resultTransaction: {}", resultTransaction);
 		return ResponseEntity.ok(resultTransaction);
 	}
 
 	@GetMapping("")
-	public List<TransactionDTO> getAllTransactions() {
+	public List<TransactionResponse> getAllTransactions() {
 		return transactionService.findAll();
 	}
 

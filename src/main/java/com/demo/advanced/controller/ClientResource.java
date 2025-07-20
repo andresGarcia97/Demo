@@ -1,6 +1,7 @@
 package com.demo.advanced.controller;
 
-import com.demo.advanced.dto.ClientDTO;
+import com.demo.advanced.dto.request.ClientRequest;
+import com.demo.advanced.dto.response.ClientResponse;
 import com.demo.advanced.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,23 +26,23 @@ public class ClientResource {
 	private final ClientService clientService;
 
 	@PostMapping("")
-	public ResponseEntity<ClientDTO> create(@RequestBody final ClientDTO client) {
+	public ResponseEntity<ClientResponse> create(@RequestBody final ClientRequest client) {
 		log.info("REST request to save client: {}", client);
-		final ClientDTO saved = clientService.save(client);
+		final ClientResponse saved = clientService.save(client);
 		log.info("REST result saved : {}", saved);
 		return ResponseEntity.ok(saved);
 	}
 
 	@PutMapping("")
-	public ResponseEntity<ClientDTO> update(@RequestBody final ClientDTO client) {
+	public ResponseEntity<ClientResponse> update(@RequestBody final ClientRequest client) {
 		log.info("REST request to update client: {}", client);
-		final ClientDTO update = clientService.update(client);
+		final ClientResponse update = clientService.update(client);
 		log.info("REST result update : {}", update);
 		return ResponseEntity.ok(update);
 	}
 
 	@GetMapping("")
-	public List<ClientDTO> getAll() {
+	public List<ClientResponse> getAll() {
 		return clientService.findAll();
 	}
 

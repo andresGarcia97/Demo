@@ -51,23 +51,19 @@ public class Client {
 		return this;
 	}
 
-	public Client validateUpdate(final Client client) throws ClientException {
+	public Client validateUpdate(final Client client) {
 
 		this.validateBornDate();
 		this.validateNameAndLastName();
 		this.validateEmail();
 		this.validateIdFields();
 
-		if(this.getCreationDate().toInstant().compareTo(client.getCreationDate().toInstant()) != 0) {
-			log.error("validateUpdate :: dateCreationPrevious: {}, dateCreationUpdate: {}", client.getCreationDate(), this.getCreationDate());
-			throw new ClientException("No se puede cambiar la fecha de creacion");
-		}
-
+		this.setCreationDate(client.getCreationDate());
 		this.setModificationDate(ZonedDateTime.now());
 		return this;
 	}
 
-	private void validateBornDate() throws ClientException {
+	private void validateBornDate() {
 
 		if(this.bornDate == null) {
 			throw new ClientException("La fecha de nacimiento es obligatoria");
@@ -85,7 +81,7 @@ public class Client {
 		}
 	}
 
-	private void validateNameAndLastName() throws ClientException {
+	private void validateNameAndLastName() {
 
 		if(this.name == null || this.name.isBlank()) {
 			throw new ClientException("El nombre es obligatorio");
@@ -100,7 +96,7 @@ public class Client {
 		}
 	}
 
-	private void validateEmail() throws ClientException {
+	private void validateEmail() {
 
 		if(this.email == null || this.email.isBlank()) {
 			throw new ClientException("El correo es obligatorio");
@@ -111,7 +107,7 @@ public class Client {
 		}
 	}
 
-	private void validateIdFields() throws ClientException {
+	private void validateIdFields() {
 
 		if(this.identification == null || this.identification.isBlank()) {
 			throw new ClientException("La identificación es obligatoria");

@@ -3,8 +3,8 @@ package com.demo.advanced.service.impl;
 
 import com.demo.advanced.domain.accountbank.AccountBank;
 import com.demo.advanced.domain.accountbank.AccountBankException;
-import com.demo.advanced.dto.AccountBankDTO;
-import com.demo.advanced.dto.ClientDTO;
+import com.demo.advanced.dto.response.AccountBankResponse;
+import com.demo.advanced.dto.request.AccountBankRequest;
 import com.demo.advanced.entities.AccountBankEntity;
 import com.demo.advanced.repository.AccountBankRepository;
 import com.demo.advanced.service.AccountBankService;
@@ -34,19 +34,17 @@ public class AccountBankServiceImpl implements AccountBankService {
 	private final AccountBankEntityMapper entityMapper;
 
 	@Override
-	public AccountBankDTO save(final AccountBankDTO accountBank)  {
+	public AccountBankResponse save(final AccountBankRequest accountBank)  {
 
-		final ClientDTO client = accountBank.client();
-		if(client == null || client.id() == null) {
-			throw new AccountBankException("La cuenta debe estar asociada a un cliente obligatoriamente");
-		}
+		final Long clientId = Optional.ofNullable(accountBank.clientId())
+				.orElseThrow(() -> new AccountBankException("La cuenta debe estar asociada a un cliente obligatoriamente"));
 
 		final AccountBank toValidate = domainMapper.toDomain(accountBank).validateCreation();
-		toValidate.setClient(clientService.findById(client.id()));
+		toValidate.setClient(clientService.findById(clientId));
 
 		accountBankRepository.findByNumber(toValidate.getNumber())
 		.ifPresent(accountNumberRepeated -> {
-			toValidate.setNumber(toValidate.generateRandonNumberAccount());
+			toValidate.setNumber(toValidate.generateRandomNumberAccount());
 			log.warn("save :: Numero de cuenta repetido, generando de nuevo, newGeneration: {}, previousExist: {}, accountId: {}",
 					toValidate.getNumber(), accountNumberRepeated.getNumber(), accountNumberRepeated.getId());
 		});
@@ -57,7 +55,7 @@ public class AccountBankServiceImpl implements AccountBankService {
 	}
 
 	@Override
-	public AccountBankDTO update(final AccountBankDTO accountBank) throws AccountBankException {
+	public AccountBankResponse update(final AccountBankRequest accountBank) {
 
 		final AccountBankEntity accountBankFound = accountBankRepository.findById(accountBank.id())
 				.orElseThrow(() -> new AccountBankException("No existe una cuenta bancaria con el ID proporcionado"));
@@ -70,16 +68,14 @@ public class AccountBankServiceImpl implements AccountBankService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<AccountBankDTO> findAll() {
+	public List<AccountBankResponse> findAll() {
 		return accountBankRepository.findAll().stream().map(queriesMapper::toDto).toList();
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<AccountBank> findAccountBank(final AccountBankDTO account) {
-		return (account == null || account.id() == null)
-				? Optional.empty()
-				: accountBankRepository.findById(account.id()).map(entityMapper::toDomain);
+	public Optional<AccountBank> findById(final Long accountId) {
+		return accountId == null ? Optional.empty() : accountBankRepository.findById(accountId).map(entityMapper::toDomain);
 	}
 
 	@Override

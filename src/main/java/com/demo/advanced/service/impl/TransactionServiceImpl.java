@@ -3,7 +3,8 @@ package com.demo.advanced.service.impl;
 import com.demo.advanced.domain.accountbank.AccountBank;
 import com.demo.advanced.domain.transaction.Transaction;
 import com.demo.advanced.domain.transaction.TransactionException;
-import com.demo.advanced.dto.TransactionDTO;
+import com.demo.advanced.dto.response.TransactionResponse;
+import com.demo.advanced.dto.request.TransactionRequest;
 import com.demo.advanced.entities.TransactionEntity;
 import com.demo.advanced.entities.enumeration.TransactionType;
 import com.demo.advanced.repository.TransactionRepository;
@@ -35,10 +36,10 @@ public class TransactionServiceImpl implements TransactionService {
 	private final TransactionEntityMapper entityMapper;
 
 	@Override
-	public TransactionDTO saveAndFlush(final TransactionDTO transaction) {
+	public TransactionResponse saveAndFlush(final TransactionRequest transaction) {
 
-		final Optional<AccountBank> existAccountOrigin = accountBankService.findAccountBank(transaction.origin());
-		final Optional<AccountBank> existAccountDestiny = accountBankService.findAccountBank(transaction.destiny());
+		final Optional<AccountBank> existAccountOrigin = accountBankService.findById(transaction.accountBankOrigin());
+		final Optional<AccountBank> existAccountDestiny = accountBankService.findById(transaction.accountBankDestiny());
 
 		if(existAccountOrigin.isEmpty() && existAccountDestiny.isEmpty()) {
 			throw new TransactionException("Se debe referenciar al menos una cuenta, ya sea destino o origen");
@@ -54,15 +55,18 @@ public class TransactionServiceImpl implements TransactionService {
 		final AccountBank destiny = toValidate.getDestiny();
 		final AccountBank origin = toValidate.getOrigin();
 
-		if(destiny != null && TransactionType.CONSIGNACION.equals(toValidate.getTransactionType())) {
+		if(destiny != null && TransactionType.CONSIGNACION.equals(toValidate.getType())) {
 			accountBankService.updateBalance(destiny);
 		}
 
-		if(origin != null && TransactionType.RETIRO.equals(toValidate.getTransactionType())) {
+		if(origin != null && TransactionType.RETIRO.equals(toValidate.getType())) {
 			accountBankService.updateBalance(origin);
 		}
 
-		if(destiny != null && origin != null && TransactionType.TRANSFERENCIA.equals(toValidate.getTransactionType())) {
+		if(destiny != null && origin != null && TransactionType.TRANSFERENCIA.equals(toValidate.getType())) {
+
+			log.info("toValidate {}", toValidate);
+
 			accountBankService.updateBalance(destiny);
 			accountBankService.updateBalance(origin);
 
@@ -81,7 +85,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<TransactionDTO> findAll() {
+	public List<TransactionResponse> findAll() {
 		return transactionRepository.findAll().stream().map(queriesMapper::toDto).toList();
 	}
 

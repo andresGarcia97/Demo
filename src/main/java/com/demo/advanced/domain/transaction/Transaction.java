@@ -3,6 +3,7 @@ package com.demo.advanced.domain.transaction;
 import com.demo.advanced.domain.accountbank.AccountBank;
 import com.demo.advanced.entities.enumeration.TransactionType;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,11 +13,12 @@ import java.util.UUID;
 
 @Slf4j
 @Data
+@NoArgsConstructor
 public class Transaction {
 
 	private UUID id;
 
-	private TransactionType transactionType;
+	private TransactionType type;
 
 	@Setter
 	private ZonedDateTime transactionDate;
@@ -29,9 +31,9 @@ public class Transaction {
 	@Setter
 	private AccountBank destiny;
 
-	public Transaction(final Transaction dataToCopy, TransactionType typeCopy) {
+	public Transaction(final Transaction dataToCopy, TransactionType type) {
 		super();
-		this.transactionType = typeCopy;
+		this.type = type;
 		this.transactionDate = dataToCopy.getTransactionDate();
 		this.amount = dataToCopy.getAmount();
 		this.destiny = dataToCopy.getDestiny();
@@ -40,8 +42,8 @@ public class Transaction {
 
 	public Transaction validateCreation() {
 
-		final TransactionType type = this.transactionType;
-		this.validateObligatoryFields(type);
+		final TransactionType transactionType = this.type;
+		this.validateObligatoryFields(transactionType);
 
 		this.setTransactionDate(ZonedDateTime.now());
 
@@ -50,11 +52,11 @@ public class Transaction {
 		final boolean destinyAccountExist = this.destiny != null;
 		final boolean originAccountExist = this.origin != null;
 
-		if(TransactionType.TRANSFERENCIA.equals(type) && destinyAccountExist && originAccountExist) {
+		if(TransactionType.TRANSFERENCIA.equals(transactionType) && destinyAccountExist && originAccountExist) {
 
 			if(this.destiny.getId().equals(this.origin.getId())) {
 				throw new TransactionException(new StringBuilder()
-						.append("Una transaccion de tipo: ").append(type)
+						.append("Una transaccion de tipo: ").append(transactionType)
 						.append(" el origen y el destino No pueden ser iguales")
 						.append(" cuenta con ID: ").append(this.origin.getId())
 						.append(" y numero: ").append(this.origin.getNumber())
@@ -67,12 +69,12 @@ public class Transaction {
 			return this;
 		}
 
-		final boolean transactionIsConsignacion = TransactionType.CONSIGNACION.equals(type);
+		final boolean transactionIsConsignacion = TransactionType.CONSIGNACION.equals(transactionType);
 		if(transactionIsConsignacion && destinyAccountExist) {
 
 			if(originAccountExist) {
 				log.warn("validateCreation :: una {} no puede tener una cuenta de origen, borrando cuenta: {}",
-						type, this.origin);				
+						transactionType, this.origin);
 				this.setOrigin(null);
 			}
 			this.destiny.addAmountToBalanceAccount(this.amount);
@@ -82,12 +84,12 @@ public class Transaction {
 			accountObligatory = "destino";			
 		}
 
-		final boolean transactionIsRetiro = TransactionType.RETIRO.equals(type);
+		final boolean transactionIsRetiro = TransactionType.RETIRO.equals(transactionType);
 		if(transactionIsRetiro && originAccountExist) {
 
 			if(destinyAccountExist) {
 				log.warn("validateCreation :: un {} no puede tener una cuenta de destino, borrando cuenta: {}",
-						type, this.destiny);				
+						transactionType, this.destiny);
 				this.setDestiny(null);
 			}
 			this.origin.substractAmountToBalanceAccount(this.amount);
@@ -97,9 +99,9 @@ public class Transaction {
 			accountObligatory = "origen";			
 		}
 
-		log.error("validateCreation :: type: {}, accountObligatory: {}, destinyAccountExist: {}, originAccountExist: {}",
-				type, accountObligatory, destinyAccountExist, originAccountExist);
-		throw new TransactionException("Las transaciones de tipo: " + type.name() + " Deben contar con la cuenta de: " + accountObligatory);
+		log.error("validateCreation :: transactionType: {}, accountObligatory: {}, destinyAccountExist: {}, originAccountExist: {}",
+				transactionType, accountObligatory, destinyAccountExist, originAccountExist);
+		throw new TransactionException("Las transaciones de tipo: " + transactionType.name() + " Deben contar con la cuenta de: " + accountObligatory);
 
 	}
 
