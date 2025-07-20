@@ -16,9 +16,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ControllerAdvice {
 
     @ExceptionHandler( { AccountBankException.class, ClientException.class, TransactionException.class } )
-    public ResponseEntity<ErrorResponse> handleNotValidArgumentException(Exception exception) {
-        log.error("ERROR: ", exception);
+    public ResponseEntity<ErrorResponse> handleDomainException(Exception exception) {
+        log.error("Domain Error: ", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(exception.getMessage(), HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler( { RuntimeException.class, Exception.class })
+    public ResponseEntity<ErrorResponse> handleGeneralException(Exception exception) {
+        log.error("General Error: ", exception);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
 }

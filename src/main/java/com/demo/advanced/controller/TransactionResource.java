@@ -23,8 +23,10 @@ public class TransactionResource {
 
 	@PostMapping("")
 	public ResponseEntity<TransactionDTO> createTransaction(@RequestBody final TransactionDTO transaction) {
-		log.info("REST request to save transaction: {}", transaction);
-		return ResponseEntity.ok(transactionService.saveAndFlush(transaction));
+		log.info("REST request to generate transaction: {}", transaction);
+		final TransactionDTO resultTransaction = transactionService.saveAndFlush(transaction);
+		log.info("REST resultTransaction: {}", resultTransaction);
+		return ResponseEntity.ok(resultTransaction);
 	}
 
 	@GetMapping("")

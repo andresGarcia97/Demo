@@ -25,13 +25,17 @@ public class AccountBankResource {
 	@PostMapping("")
 	public ResponseEntity<AccountBankDTO> createAccountBank(@RequestBody final AccountBankDTO accountBank) {
 		log.info("REST request to save accountBank: {}", accountBank);
-		return ResponseEntity.ok(accountBankService.save(accountBank));
+		final AccountBankDTO saved = accountBankService.save(accountBank);
+		log.info("REST result saved: {}", saved);
+		return ResponseEntity.ok(saved);
 	}
 
 	@PutMapping("")
-	public ResponseEntity<AccountBankDTO> updateAccountBank(@RequestBody(required = true) final AccountBankDTO accountBank) {
+	public ResponseEntity<AccountBankDTO> updateAccountBank(@RequestBody final AccountBankDTO accountBank) {
 		log.info("REST request to update accountBank: {}", accountBank);
-		return ResponseEntity.ok().body(accountBankService.update(accountBank));
+		final AccountBankDTO updated = accountBankService.update(accountBank);
+		log.info("REST result updated: {}", updated);
+		return ResponseEntity.ok().body(updated);
 	}
 
 	@GetMapping("")

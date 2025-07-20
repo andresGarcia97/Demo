@@ -27,17 +27,17 @@ public class ClientResource {
 	@PostMapping("")
 	public ResponseEntity<ClientDTO> create(@RequestBody final ClientDTO client) {
 		log.info("REST request to save client: {}", client);
-		final ClientDTO clientSaved = clientService.save(client);
-		log.info("REST result clientSaved : {}", clientSaved);
-		return ResponseEntity.ok(clientSaved);
+		final ClientDTO saved = clientService.save(client);
+		log.info("REST result saved : {}", saved);
+		return ResponseEntity.ok(saved);
 	}
 
 	@PutMapping("")
 	public ResponseEntity<ClientDTO> update(@RequestBody final ClientDTO client) {
 		log.info("REST request to update client: {}", client);
-		final ClientDTO cliendUpdated = clientService.update(client);
-		log.info("REST result cliendUpdated : {}", cliendUpdated);
-		return ResponseEntity.ok(cliendUpdated);
+		final ClientDTO update = clientService.update(client);
+		log.info("REST result update : {}", update);
+		return ResponseEntity.ok(update);
 	}
 
 	@GetMapping("")
