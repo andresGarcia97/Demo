@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity Transaction.
+    -->
+    <changeSet id="202507_04" author="jhipster">
+
+        <createTable tableName="transaction">
+
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="type" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="date" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="amount" type="decimal(21,2)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="origin_id" type="bigint">
+                <constraints nullable="true" unique="false" uniqueConstraintName="ux_transaction_origin_id" />
+            </column>
+
+            <column name="destiny_id" type="bigint">
+                <constraints nullable="true" unique="false" uniqueConstraintName="ux_transaction_destiny_id" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+
+        <dropDefaultValue tableName="transaction" columnName="date" columnDataType="timestamp"/>
+
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+    
+</databaseChangeLog>

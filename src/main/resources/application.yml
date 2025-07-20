@@ -1,0 +1,22 @@
+spring:
+  profiles.active: dev
+
+  application.name: "Demo APP"
+
+  threads.virtual.enabled: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/demo
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    url: jdbc:postgresql://localhost:5432/demo
+    user: admin
+    password: admin
+    enabled: true
+    change-log: db/changelog/db.changelog-master.yaml
+  jpa:
+    properties:
+      jdbc:
+        time_zone: UTC
