@@ -1,4 +1,4 @@
-package com.demo.advanced.domain.transaction;
+package com.demo.advanced.exception;
 
 public final class TransactionException extends RuntimeException {
 	

@@ -1,4 +1,4 @@
-package com.demo.advanced.domain.client;
+package com.demo.advanced.exception;
 
 public final class ClientException extends RuntimeException {
 

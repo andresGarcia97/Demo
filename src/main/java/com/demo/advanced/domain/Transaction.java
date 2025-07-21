@@ -1,7 +1,7 @@
-package com.demo.advanced.domain.transaction;
+package com.demo.advanced.domain;
 
-import com.demo.advanced.domain.accountbank.AccountBank;
-import com.demo.advanced.entities.enumeration.TransactionType;
+import com.demo.advanced.domain.enumeration.TransactionType;
+import com.demo.advanced.exception.TransactionException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

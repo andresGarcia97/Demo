@@ -1,6 +1,6 @@
 package com.demo.advanced.dto.request;
 
-import com.demo.advanced.entities.enumeration.TransactionType;
+import com.demo.advanced.domain.enumeration.TransactionType;
 
 import java.math.BigDecimal;
 

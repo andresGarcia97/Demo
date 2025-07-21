@@ -1,7 +1,7 @@
 package com.demo.advanced.dto.response;
 
-import com.demo.advanced.entities.enumeration.AccountState;
-import com.demo.advanced.entities.enumeration.AccountType;
+import com.demo.advanced.domain.enumeration.AccountState;
+import com.demo.advanced.domain.enumeration.AccountType;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;

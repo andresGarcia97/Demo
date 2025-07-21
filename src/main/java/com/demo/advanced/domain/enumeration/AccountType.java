@@ -1,5 +1,8 @@
-package com.demo.advanced.entities.enumeration;
+package com.demo.advanced.domain.enumeration;
 
+import lombok.Getter;
+
+@Getter
 public enum AccountType {
 
 	CUENTA_CORRIENTE(33),
@@ -7,12 +10,8 @@ public enum AccountType {
 
 	private final int startNumber;
 
-	private AccountType(int startNumber) {
+	AccountType(int startNumber) {
 		this.startNumber = startNumber;
-	}
-
-	public int getStartNumber() {
-		return startNumber;
 	}
 
 }

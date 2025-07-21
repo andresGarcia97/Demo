@@ -1,6 +1,6 @@
 package com.demo.advanced.service;
 
-import com.demo.advanced.domain.accountbank.AccountBank;
+import com.demo.advanced.domain.AccountBank;
 import com.demo.advanced.dto.response.AccountBankResponse;
 import com.demo.advanced.dto.request.AccountBankRequest;
 

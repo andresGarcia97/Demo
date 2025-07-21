@@ -1,12 +1,13 @@
 package com.demo.advanced.service.impl;
 
-import com.demo.advanced.domain.accountbank.AccountBank;
-import com.demo.advanced.domain.transaction.Transaction;
-import com.demo.advanced.domain.transaction.TransactionException;
+import com.demo.advanced.domain.AccountBank;
+import com.demo.advanced.exception.AccountBankException;
+import com.demo.advanced.domain.Transaction;
+import com.demo.advanced.exception.TransactionException;
 import com.demo.advanced.dto.response.TransactionResponse;
 import com.demo.advanced.dto.request.TransactionRequest;
 import com.demo.advanced.entities.TransactionEntity;
-import com.demo.advanced.entities.enumeration.TransactionType;
+import com.demo.advanced.domain.enumeration.TransactionType;
 import com.demo.advanced.repository.TransactionRepository;
 import com.demo.advanced.service.AccountBankService;
 import com.demo.advanced.service.TransactionService;
@@ -85,8 +86,16 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<TransactionResponse> findAll() {
-		return transactionRepository.findAll().stream().map(queriesMapper::toDto).toList();
+	public List<TransactionResponse> findAllByAccountId(Long accountId) {
+
+		final var account = accountBankService.findById(accountId)
+				.orElseThrow(() -> new AccountBankException(AccountBankException.ACCOUNT_NOT_EXIST));
+
+		log.info("findAllByAccountId accountId: {}, accountNumber: {}", accountId, account.getNumber());
+
+		return transactionRepository.findByOrigin_IdOrDestiny_Id(accountId, accountId).stream()
+				.map(queriesMapper::toDto)
+				.toList();
 	}
 
 }

@@ -1,6 +1,6 @@
 package com.demo.advanced.dto.request;
 
-import com.demo.advanced.entities.enumeration.IdentificationType;
+import com.demo.advanced.domain.enumeration.IdentificationType;
 
 import java.time.LocalDate;
 

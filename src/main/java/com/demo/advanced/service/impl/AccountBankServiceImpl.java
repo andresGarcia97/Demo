@@ -1,8 +1,8 @@
 package com.demo.advanced.service.impl;
 
 
-import com.demo.advanced.domain.accountbank.AccountBank;
-import com.demo.advanced.domain.accountbank.AccountBankException;
+import com.demo.advanced.domain.AccountBank;
+import com.demo.advanced.exception.AccountBankException;
 import com.demo.advanced.dto.response.AccountBankResponse;
 import com.demo.advanced.dto.request.AccountBankRequest;
 import com.demo.advanced.entities.AccountBankEntity;
@@ -69,13 +69,17 @@ public class AccountBankServiceImpl implements AccountBankService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<AccountBankResponse> findAll() {
-		return accountBankRepository.findAll().stream().map(queriesMapper::toDto).toList();
+		return accountBankRepository.findAll().stream()
+				.map(queriesMapper::toDto)
+				.toList();
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<AccountBank> findById(final Long accountId) {
-		return accountId == null ? Optional.empty() : accountBankRepository.findById(accountId).map(entityMapper::toDomain);
+		return accountId == null
+				? Optional.empty()
+				: accountBankRepository.findById(accountId).map(entityMapper::toDomain);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package com.demo.advanced.service.impl;
 
-import com.demo.advanced.domain.client.Client;
-import com.demo.advanced.domain.client.ClientException;
+import com.demo.advanced.domain.Client;
+import com.demo.advanced.exception.ClientException;
 import com.demo.advanced.dto.request.ClientRequest;
 import com.demo.advanced.dto.response.ClientResponse;
 import com.demo.advanced.entities.AccountBankEntity;

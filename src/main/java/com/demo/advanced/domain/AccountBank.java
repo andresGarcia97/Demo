@@ -1,8 +1,8 @@
-package com.demo.advanced.domain.accountbank;
+package com.demo.advanced.domain;
 
-import com.demo.advanced.domain.client.Client;
-import com.demo.advanced.entities.enumeration.AccountState;
-import com.demo.advanced.entities.enumeration.AccountType;
+import com.demo.advanced.domain.enumeration.AccountState;
+import com.demo.advanced.domain.enumeration.AccountType;
+import com.demo.advanced.exception.AccountBankException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 

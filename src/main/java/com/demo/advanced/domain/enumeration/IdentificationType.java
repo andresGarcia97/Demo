@@ -1,4 +1,4 @@
-package com.demo.advanced.entities.enumeration;
+package com.demo.advanced.domain.enumeration;
 
 public enum IdentificationType {
 	CEDULA,

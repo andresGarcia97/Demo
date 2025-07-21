@@ -1,6 +1,7 @@
-package com.demo.advanced.domain.client;
+package com.demo.advanced.domain;
 
-import com.demo.advanced.entities.enumeration.IdentificationType;
+import com.demo.advanced.domain.enumeration.IdentificationType;
+import com.demo.advanced.exception.ClientException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 

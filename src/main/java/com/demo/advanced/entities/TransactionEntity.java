@@ -1,6 +1,6 @@
 package com.demo.advanced.entities;
 
-import com.demo.advanced.entities.enumeration.TransactionType;
+import com.demo.advanced.domain.enumeration.TransactionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

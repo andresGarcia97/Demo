@@ -1,7 +1,7 @@
 package com.demo.advanced.entities;
 
-import com.demo.advanced.entities.enumeration.AccountState;
-import com.demo.advanced.entities.enumeration.AccountType;
+import com.demo.advanced.domain.enumeration.AccountState;
+import com.demo.advanced.domain.enumeration.AccountType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

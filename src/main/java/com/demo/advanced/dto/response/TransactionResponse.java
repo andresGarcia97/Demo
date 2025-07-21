@@ -1,6 +1,6 @@
 package com.demo.advanced.dto.response;
 
-import com.demo.advanced.entities.enumeration.TransactionType;
+import com.demo.advanced.domain.enumeration.TransactionType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 

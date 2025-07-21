@@ -9,6 +9,6 @@ public interface TransactionService {
 
 	TransactionResponse saveAndFlush(TransactionRequest transactionResponse);
 
-	List<TransactionResponse> findAll();
+	List<TransactionResponse> findAllByAccountId(Long accountId);
 
 }
