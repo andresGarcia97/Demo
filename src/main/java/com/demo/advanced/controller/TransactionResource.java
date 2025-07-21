@@ -1,6 +1,7 @@
 package com.demo.advanced.controller;
 
 import com.demo.advanced.annotations.RateLimited;
+import com.demo.advanced.controller.ratelimit.RateLimitType;
 import com.demo.advanced.dto.request.TransactionRequest;
 import com.demo.advanced.dto.response.TransactionResponse;
 import com.demo.advanced.service.TransactionService;
@@ -32,7 +33,7 @@ public class TransactionResource {
 		return ResponseEntity.ok(resultTransaction);
 	}
 
-	@RateLimited
+	@RateLimited(RateLimitType.ACCOUNT)
 	@GetMapping("/{accountId}")
 	public List<TransactionResponse> getAllTransactions(@PathVariable Long accountId) {
 		return transactionService.findAllByAccountId(accountId);

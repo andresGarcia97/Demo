@@ -1,5 +1,7 @@
 package com.demo.advanced.controller;
 
+import com.demo.advanced.annotations.RateLimited;
+import com.demo.advanced.controller.ratelimit.RateLimitType;
 import com.demo.advanced.dto.response.AccountBankResponse;
 import com.demo.advanced.dto.request.AccountBankRequest;
 import com.demo.advanced.service.AccountBankService;
@@ -40,6 +42,7 @@ public class AccountBankResource {
 		return ResponseEntity.ok().body(updated);
 	}
 
+	@RateLimited(RateLimitType.CLIENT)
 	@GetMapping("/{clientId}")
 	public List<AccountBankResponse> getAllByClientId(@PathVariable(name = "clientId") Long clientId) {
 		return accountBankService.findAllByClientId(clientId);

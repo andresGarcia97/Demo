@@ -1,59 +1,44 @@
 package com.demo.advanced.controller.ratelimit;
 
-import com.demo.advanced.config.RateLimitConfig;
-import com.demo.advanced.exception.RateLimitException;
-import io.github.bucket4j.Bucket;
-import io.github.bucket4j.distributed.proxy.ProxyManager;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import com.demo.advanced.annotations.RateLimited;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.HandlerMapping;
 
+import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Aspect
 @Component
-@RequiredArgsConstructor
 public class RateLimitAspect {
 
-    private final RateLimitConfig rateLimitConfig;
-    private final ProxyManager<String> proxyManager;
+    private final Map<RateLimitType, RateLimitStrategy> strategies;
+
+    public RateLimitAspect(final List<RateLimitStrategy> strategyList) {
+        this.strategies = strategyList.stream().collect(Collectors.toMap(RateLimitStrategy::getType, Function.identity()));
+    }
 
     @Around("@annotation(com.demo.advanced.annotations.RateLimited)")
     public Object rateLimitAccount(ProceedingJoinPoint joinPoint) throws Throwable {
 
-        final HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        final Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
+        final RateLimited rateLimitedAnnotation = method.getAnnotation(RateLimited.class);
 
-        final Map<String, String> pathVariables = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-        final String accountId = pathVariables.get("accountId");
+        final RateLimitType type = rateLimitedAnnotation.value();
+        final RateLimitStrategy strategy = strategies.get(type);
 
-        final Bucket bucket = getOrCreateBucket(accountId);
-
-        if (bucket.tryConsume(1)) {
-            return joinPoint.proceed();
+        if (strategy == null) {
+            throw new IllegalArgumentException("No strategy found for type: " + type);
         }
 
-        final HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-        if (response != null) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-        }
-
-        throw new RateLimitException(String.format(RateLimitException.RATE_LIMIT, rateLimitConfig.getCapacity(), accountId));
+        return strategy.handleLimit(joinPoint);
     }
 
-    /**
-     * Obtiene un bucket de Redis para el ID de la cuenta.
-     * Si no existe, lo crea usando la configuración de 'rateLimitConfig'.
-     */
-    private Bucket getOrCreateBucket(String accountId) {
-        return proxyManager.builder().build(accountId, rateLimitConfig::bucketConfiguration);
-    }
 }
