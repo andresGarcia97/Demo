@@ -1,4 +1,4 @@
-package com.demo.advanced.controller;
+package com.demo.advanced.controller.error;
 
 import com.demo.advanced.exception.AccountBankException;
 import com.demo.advanced.exception.ClientException;
@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -17,14 +18,14 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @RequiredArgsConstructor
 public class ControllerAdvice {
 
-    @ExceptionHandler( { AccountBankException.class, ClientException.class, TransactionException.class } )
+    @ExceptionHandler({ AccountBankException.class, ClientException.class, TransactionException.class })
     public ResponseEntity<ErrorResponse> handleDomainException(Exception exception) {
         log.info("Domain Error: {}", exception.getClass());
         log.error("Domain Error: ", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(exception.getMessage(), HttpStatus.BAD_REQUEST));
     }
 
-    @ExceptionHandler( { RuntimeException.class, Exception.class })
+    @ExceptionHandler({ RuntimeException.class, Exception.class })
     public ResponseEntity<ErrorResponse> handleGeneralException(Exception exception) {
         log.info("General Error: {}", exception.getClass());
         log.warn("General Error: {}", exception.getMessage());
@@ -38,7 +39,7 @@ public class ControllerAdvice {
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new ErrorResponse(exception.getMessage(), HttpStatus.SERVICE_UNAVAILABLE));
     }
 
-    @ExceptionHandler(NoResourceFoundException.class)
+    @ExceptionHandler({ NoResourceFoundException.class, HttpRequestMethodNotSupportedException.class})
     public ResponseEntity<ErrorResponse> handleBadResources(Exception exception) {
         log.warn("Error resource: {}", exception.getMessage());
         log.error("Error resource: ", exception);

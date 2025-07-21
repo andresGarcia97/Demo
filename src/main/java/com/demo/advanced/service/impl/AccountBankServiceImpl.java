@@ -68,10 +68,8 @@ public class AccountBankServiceImpl implements AccountBankService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<AccountBankResponse> findAll() {
-		return accountBankRepository.findAll().stream()
-				.map(queriesMapper::toDto)
-				.toList();
+	public List<AccountBankResponse> findAllByClientId(Long clientId) {
+		return queriesMapper.toDtoList(accountBankRepository.findAllByClientId(clientId));
 	}
 
 	@Override

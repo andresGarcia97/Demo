@@ -13,7 +13,7 @@ public interface AccountBankService {
 
 	AccountBankResponse update(AccountBankRequest accountBank);
 
-	List<AccountBankResponse> findAll();
+	List<AccountBankResponse> findAllByClientId(Long clientId);
 
 	Optional<AccountBank> findById(Long accountId);
 
