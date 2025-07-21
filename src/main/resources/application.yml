@@ -1,5 +1,18 @@
+server:
+  shutdown: graceful
+  compression:
+    enabled: true
+
+application:
+  rate-limit:
+    capacity: 10
+    refillRate: 2
+    timeInMinutes: 1
+
 spring:
   profiles.active: dev
+
+  lifecycle.timeout-per-shutdown-phase: 30s
 
   application.name: "Demo APP"
 
@@ -20,12 +33,14 @@ spring:
     jpa:
       repositories:
         bootstrap-mode: deferred
-  jpa:
-    properties:
-      jdbc:
-        time_zone: UTC
-        database-platform: org.hibernate.dialect.PostgreSQLDialect
-      hibernate:
-        naming:
-          physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
-          implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+      properties:
+        jdbc:
+          time_zone: UTC
+          database-platform: org.hibernate.dialect.PostgreSQLDialect
+        hibernate:
+          naming:
+            physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+            implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    redis:
+      host: localhost
+      port: 6379

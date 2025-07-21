@@ -764,18 +764,19 @@
 			"name": "transacciones",
 			"item": [
 				{
-					"name": "obtener todas las transacciones",
+					"name": "obtener todas las transacciones de una cuenta",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/transactions",
+							"raw": "{{HOST}}/api/transactions/101",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
-								"transactions"
+								"transactions",
+								"101"
 							]
 						}
 					},
