@@ -436,18 +436,19 @@
 			"name": "cuentas",
 			"item": [
 				{
-					"name": "obtener todas las cuentas",
+					"name": "obtener todas las cuentas por cliente",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/account-banks",
+							"raw": "{{HOST}}/api/account-banks/91",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
-								"account-banks"
+								"account-banks",
+								"91"
 							]
 						}
 					},

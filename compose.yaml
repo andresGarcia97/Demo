@@ -1,7 +1,6 @@
 services:
   postgres:
     image: postgres:latest
-    restart: on-failure
     environment:
       - POSTGRES_DB=demo
       - POSTGRES_PASSWORD=admin
@@ -18,7 +17,6 @@ services:
 
   redis:
     image: redis:latest
-    restart: on-failure
     ports:
       - "6379:6379"
     volumes:
@@ -31,7 +29,6 @@ services:
 
   redis-commander:
     image: rediscommander/redis-commander:latest
-    restart: on-failure
     environment:
       - REDIS_HOSTS=local:redis:6379
     ports:

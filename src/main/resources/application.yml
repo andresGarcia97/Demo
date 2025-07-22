@@ -5,9 +5,14 @@ server:
 
 application:
   rate-limit:
-    capacity: 10
-    refillRate: 2
-    timeInMinutes: 1
+    account:
+      capacity: 10
+      refillRate: 2
+      timeInMinutes: 1
+    client:
+      capacity: 15
+      refillRate: 1
+      timeInMinutes: 2
 
 spring:
   profiles.active: dev

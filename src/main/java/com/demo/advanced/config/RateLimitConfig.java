@@ -21,14 +21,24 @@ import java.time.Duration;
 public class RateLimitConfig {
 
     @Getter
-    @Value("${application.rate-limit.capacity:10}")
-    private long capacity;
+    @Value("${application.account.rate-limit.capacity:10}")
+    private long capacityAccount;
 
-    @Value("${application.rate-limit.refillRate:2}")
-    private long refillRate;
+    @Value("${application.account.rate-limit.refillRate:2}")
+    private long refillRateAccount;
 
-    @Value("${application.rate-limit.timeInMinutes:1}")
-    private long timeInMinutes;
+    @Value("${application.account.rate-limit.timeInMinutes:1}")
+    private long timeInMinutesAccount;
+
+    @Getter
+    @Value("${application.client.rate-limit.capacity:15}")
+    private long capacityClient;
+
+    @Value("${application.client.rate-limit.refillRate:1}")
+    private long refillRateClient;
+
+    @Value("${application.client.rate-limit.timeInMinutes:2}")
+    private long timeInMinutesClient;
 
     @Bean
     public RedisClient redisClient(@Value("${spring.data.redis.host}") String redisHost, @Value("${spring.data.redis.port}") int redisPort) {
@@ -49,11 +59,24 @@ public class RateLimitConfig {
     }
 
     @Bean
-    public BucketConfiguration bucketConfiguration() {
+    public BucketConfiguration bucketAccountConfiguration() {
 
         final Bandwidth limit = Bandwidth.builder()
-                .capacity(capacity)
-                .refillGreedy(refillRate, Duration.ofMinutes(timeInMinutes))
+                .capacity(capacityAccount)
+                .refillGreedy(refillRateAccount, Duration.ofMinutes(timeInMinutesAccount))
+                .build();
+
+        return BucketConfiguration.builder()
+                .addLimit(limit)
+                .build();
+    }
+
+    @Bean
+    public BucketConfiguration bucketClientConfiguration() {
+
+        final Bandwidth limit = Bandwidth.builder()
+                .capacity(capacityClient)
+                .refillGreedy(refillRateClient, Duration.ofMinutes(timeInMinutesClient))
                 .build();
 
         return BucketConfiguration.builder()

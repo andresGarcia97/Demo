@@ -28,7 +28,7 @@ public class ClientRateLimit implements RateLimitStrategy {
 
     @Override
     public Bucket getOrCreateBucket(String clientId) {
-        return proxyManager.builder().build(clientId, rateLimitConfig::bucketConfiguration);
+        return proxyManager.builder().build(clientId, rateLimitConfig::bucketClientConfiguration);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ClientRateLimit implements RateLimitStrategy {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
         }
 
-        throw new RateLimitException(String.format(RateLimitException.RATE_LIMIT, rateLimitConfig.getCapacity()));
+        throw new RateLimitException(String.format(RateLimitException.RATE_LIMIT, rateLimitConfig.getCapacityClient()));
     }
 
 }
