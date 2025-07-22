@@ -1,10 +1,10 @@
 package com.demo.advanced.controller;
 
+import com.demo.advanced.controller.logging.Logging;
 import com.demo.advanced.dto.request.ClientRequest;
 import com.demo.advanced.dto.response.ClientResponse;
 import com.demo.advanced.service.ClientService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j
 @RestController
 @RequestMapping("/api/clients")
 @RequiredArgsConstructor
@@ -22,25 +21,21 @@ public class ClientResource {
 
 	private final ClientService clientService;
 
+	@Logging
 	@PostMapping("")
 	public ResponseEntity<ClientResponse> create(@RequestBody final ClientRequest client) {
-		log.info("REST request to save client: {}", client);
-		final ClientResponse saved = clientService.save(client);
-		log.info("REST result saved : {}", saved);
-		return ResponseEntity.ok(saved);
+		return ResponseEntity.ok(clientService.save(client));
 	}
 
+	@Logging
 	@PutMapping("")
 	public ResponseEntity<ClientResponse> update(@RequestBody final ClientRequest client) {
-		log.info("REST request to update client: {}", client);
-		final ClientResponse update = clientService.update(client);
-		log.info("REST result update : {}", update);
-		return ResponseEntity.ok(update);
+		return ResponseEntity.ok(clientService.update(client));
 	}
 
+	@Logging
 	@DeleteMapping("/{clientId}")
-	public ResponseEntity<Void> delete(@PathVariable(name = "clientId") Long clientId) {
-		log.info("REST request to delete client, clientId: {}", clientId);
+	public ResponseEntity<Void> delete(@PathVariable Long clientId) {
 		clientService.delete(clientId);
 		return ResponseEntity.noContent().build();
 	}

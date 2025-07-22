@@ -1,12 +1,12 @@
 package com.demo.advanced.controller;
 
-import com.demo.advanced.annotations.RateLimited;
+import com.demo.advanced.controller.logging.Logging;
+import com.demo.advanced.controller.ratelimit.RateLimited;
 import com.demo.advanced.controller.ratelimit.RateLimitType;
-import com.demo.advanced.dto.response.AccountBankResponse;
 import com.demo.advanced.dto.request.AccountBankRequest;
+import com.demo.advanced.dto.response.AccountBankResponse;
 import com.demo.advanced.service.AccountBankService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Slf4j
 @RestController
 @RequestMapping("/api/account-banks")
 @RequiredArgsConstructor
@@ -26,22 +25,19 @@ public class AccountBankResource {
 
 	private final AccountBankService accountBankService;
 
+	@Logging
 	@PostMapping("")
 	public ResponseEntity<AccountBankResponse> createAccountBank(@RequestBody final AccountBankRequest accountBank) {
-		log.info("REST request to save accountBank: {}", accountBank);
-		final AccountBankResponse saved = accountBankService.save(accountBank);
-		log.info("REST result saved: {}", saved);
-		return ResponseEntity.ok(saved);
+		return ResponseEntity.ok(accountBankService.save(accountBank));
 	}
 
+	@Logging
 	@PutMapping("")
 	public ResponseEntity<AccountBankResponse> updateAccountBank(@RequestBody final AccountBankRequest accountBank) {
-		log.info("REST request to update accountBank: {}", accountBank);
-		final AccountBankResponse updated = accountBankService.update(accountBank);
-		log.info("REST result updated: {}", updated);
-		return ResponseEntity.ok().body(updated);
+		return ResponseEntity.ok().body(accountBankService.update(accountBank));
 	}
 
+	@Logging
 	@RateLimited(RateLimitType.CLIENT)
 	@GetMapping("/{clientId}")
 	public List<AccountBankResponse> getAllByClientId(@PathVariable(name = "clientId") Long clientId) {

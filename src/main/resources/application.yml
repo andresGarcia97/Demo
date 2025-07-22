@@ -14,6 +14,14 @@ application:
       refillRate: 1
       timeInMinutes: 2
 
+logging:
+  level:
+    root: INFO
+    org.springframework: WARN
+    org.hibernate: WARN
+  pattern:
+    correlation: "[trace-id=%X{trace-id}]"
+
 spring:
   profiles.active: dev
 
