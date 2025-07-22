@@ -10,69 +10,6 @@
 			"name": "clientes",
 			"item": [
 				{
-					"name": "obtener todos los clientes",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{HOST}}/api/clients",
-							"host": [
-								"{{HOST}}"
-							],
-							"path": [
-								"api",
-								"clients"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "obtener todos los clientes",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{HOST}}/api/clients",
-									"host": [
-										"{{HOST}}"
-									],
-									"path": [
-										"api",
-										"clients"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Transfer-Encoding",
-									"value": "chunked"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 14 Apr 2024 06:04:58 GMT"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=60"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								}
-							],
-							"cookie": [],
-							"body": "[\n    {\n        \"id\": 51,\n        \"identificationType\": \"CEDULA\",\n        \"identification\": \"34444\",\n        \"name\": \"dos\",\n        \"lastName\": \"las\",\n        \"email\": \"correo@gmail.com\",\n        \"bornDate\": \"2005-01-01\",\n        \"creationDate\": \"2024-04-13T04:13:30Z\",\n        \"lastModificationDate\": \"2024-04-13T04:20:08Z\"\n    }\n]"
-						}
-					]
-				},
-				{
 					"name": "crear",
 					"request": {
 						"method": "POST",

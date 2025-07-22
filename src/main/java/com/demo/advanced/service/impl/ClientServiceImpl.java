@@ -51,12 +51,6 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	@Override
-	@Transactional(readOnly = true)
-	public List<ClientResponse> findAll() {
-		return clientRepository.findAll().stream().map(queriesMapper::toDto).toList();
-	}
-
-	@Override
 	public void delete(Long clientId) throws ClientException {
 
 		final Optional<ClientEntity> clientExist = clientRepository.findById(clientId);

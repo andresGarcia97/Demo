@@ -1,4 +1,4 @@
-package com.demo.advanced.controller.error;
+package com.demo.advanced.dto.response;
 
 import org.springframework.http.HttpStatus;
 

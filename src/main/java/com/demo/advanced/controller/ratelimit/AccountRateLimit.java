@@ -1,6 +1,7 @@
 package com.demo.advanced.controller.ratelimit;
 
 import com.demo.advanced.config.RateLimitConfig;
+import com.demo.advanced.events.EventPublisher;
 import com.demo.advanced.exception.RateLimitException;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.distributed.proxy.ProxyManager;
@@ -20,6 +21,7 @@ public class AccountRateLimit implements RateLimitStrategy {
 
     private final RateLimitConfig rateLimitConfig;
     private final ProxyManager<String> proxyManager;
+    private final EventPublisher eventPublisher;
 
     @Override
     public RateLimitType getType() {
@@ -42,6 +44,8 @@ public class AccountRateLimit implements RateLimitStrategy {
         if (bucketAccount.tryConsume(1)) {
             return joinPoint.proceed();
         }
+
+        eventPublisher.publishRateLimitEvent(accountKey);
 
         final HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         if (response != null) {

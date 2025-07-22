@@ -1,5 +1,6 @@
-package com.demo.advanced.controller.error;
+package com.demo.advanced.controller;
 
+import com.demo.advanced.dto.response.ErrorResponse;
 import com.demo.advanced.exception.AccountBankException;
 import com.demo.advanced.exception.ClientException;
 import com.demo.advanced.exception.RateLimitException;
