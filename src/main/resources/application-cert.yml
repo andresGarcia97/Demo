@@ -1,35 +1,5 @@
-server:
-  shutdown: graceful
-  compression:
-    enabled: true
-
-application:
-  rate-limit:
-    account:
-      capacity: 10
-      refillRate: 2
-      timeInMinutes: 1
-    client:
-      capacity: 15
-      refillRate: 1
-      timeInMinutes: 2
-
-logging:
-  level:
-    root: INFO
-    org.springframework: WARN
-    org.hibernate: WARN
-  pattern:
-    correlation: "[trace-id=%X{trace-id}]"
-
 spring:
-  profiles.active: @spring.profiles.active@
-
-  lifecycle.timeout-per-shutdown-phase: 30s
-
-  application.name: "Demo APP"
-
-  threads.virtual.enabled: true
+  profiles: cert
 
   datasource:
     url: jdbc:postgresql://localhost:5432/demo
@@ -44,7 +14,6 @@ spring:
     change-log: db/changelog/db.changelog-master.yaml
   data:
     jpa:
-      open-in-view: false
       repositories:
         bootstrap-mode: deferred
       properties:
@@ -63,7 +32,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health, info, caches, metrics
   endpoint:
     health:
       show-details: always
@@ -71,5 +40,3 @@ management:
       show-values: always
     configprops:
       show-values: always
-    mappings:
-      access: none

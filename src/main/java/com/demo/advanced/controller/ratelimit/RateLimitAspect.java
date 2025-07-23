@@ -1,6 +1,5 @@
 package com.demo.advanced.controller.ratelimit;
 
-import com.demo.advanced.annotations.RateLimited;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -25,7 +24,7 @@ public class RateLimitAspect {
         this.strategies = strategyList.stream().collect(Collectors.toMap(RateLimitStrategy::getType, Function.identity()));
     }
 
-    @Around("@annotation(com.demo.advanced.annotations.RateLimited)")
+    @Around("@annotation(com.demo.advanced.controller.ratelimit.RateLimited)")
     public Object rateLimitAccount(ProceedingJoinPoint joinPoint) throws Throwable {
 
         final Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
