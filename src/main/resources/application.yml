@@ -44,6 +44,7 @@ spring:
     change-log: db/changelog/db.changelog-master.yaml
   data:
     jpa:
+      open-in-view: false
       repositories:
         bootstrap-mode: deferred
       properties:
