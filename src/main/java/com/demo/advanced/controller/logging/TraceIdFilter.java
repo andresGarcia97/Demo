@@ -16,7 +16,7 @@ import java.util.UUID;
 @Component
 public class TraceIdFilter extends OncePerRequestFilter {
 
-    private static final String CORRELATION_ID_KEY = "trace-id";
+    private static final String TRACE_ID_KEY = "trace-id";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -24,12 +24,12 @@ public class TraceIdFilter extends OncePerRequestFilter {
 
         try {
 
-            final String correlationId = UUID.randomUUID().toString();
-            MDC.put(CORRELATION_ID_KEY, correlationId);
+            final String traceId = UUID.randomUUID().toString();
+            MDC.put(TRACE_ID_KEY, traceId);
             filterChain.doFilter(request, response);
 
         } finally {
-            MDC.remove(CORRELATION_ID_KEY);
+            MDC.remove(TRACE_ID_KEY);
         }
     }
 }
