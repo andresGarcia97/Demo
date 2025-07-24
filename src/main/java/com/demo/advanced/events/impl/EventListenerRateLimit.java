@@ -1,21 +1,21 @@
 package com.demo.advanced.events.impl;
 
 import com.demo.advanced.dto.event.RateLimitEvent;
+import com.demo.advanced.events.service.RateLimitEventAuditService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class EventListenerRateLimit implements ApplicationListener<RateLimitEvent> {
+    private final RateLimitEventAuditService auditService;
 
     @Override
     public void onApplicationEvent(final RateLimitEvent event) {
-        final ZonedDateTime timeEvent = ZonedDateTime.ofInstant(Instant.ofEpochMilli(event.getTimestamp()), ZoneId.systemDefault());
-        log.info("RateLimitEvent: {} at: {}", event, timeEvent);
+        log.info("Received RateLimitEvent: {}", event.getKey());
+        auditService.processEvent(event);
     }
 }

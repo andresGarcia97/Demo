@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EventPublisherRateLimitError implements EventPublisher, ApplicationContextAware {
+public class EventPublisherRateLimit implements EventPublisher, ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 

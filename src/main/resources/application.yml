@@ -73,3 +73,13 @@ management:
       show-values: always
     mappings:
       access: none
+
+featureflag:
+  ratelimit:
+    dynamo: true   # true para usar DynamoDB
+
+aws:
+  dynamodb:
+    endpoint: http://localhost:8000   # Usa esto si es DynamoDB Local, deja vacío si es AWS real
+    region: us-east-1
+    tableName: RateLimitEventAudit
