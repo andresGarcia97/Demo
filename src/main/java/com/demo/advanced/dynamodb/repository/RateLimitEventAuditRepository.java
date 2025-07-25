@@ -34,7 +34,7 @@ public class RateLimitEventAuditRepository implements CommandLineRunner {
     public void run(String... args) {
 
         try {
-            dynamoDbClient.describeTable(r -> r.tableName(RATE_LIMIT_EVENT_AUDIT_TABLE));
+            dynamoDbClient.describeTable(table -> table.tableName(RATE_LIMIT_EVENT_AUDIT_TABLE));
             log.info("La tabla '{}' ya existe", RATE_LIMIT_EVENT_AUDIT_TABLE);
         }
         catch (ResourceNotFoundException e) {

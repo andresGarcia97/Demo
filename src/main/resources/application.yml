@@ -13,6 +13,9 @@ application:
       capacity: 15
       refillRate: 1
       timeInMinutes: 2
+  scheduled:
+    clean: "0/10 * * ? * *" #Every 10 seconds starting at :00 second after the minute
+    interval: "15000" #15 seconds
 
 logging:
   level:
@@ -30,6 +33,20 @@ spring:
   application.name: "Demo APP"
 
   threads.virtual.enabled: true
+
+  task:
+    # Pool de tareas de @Async
+    execution:
+      thread-name-prefix: "async-virtual-"
+      threads:
+        virtual:
+          enabled: true
+    # Pool de tareas de @Scheduled
+    scheduling:
+      thread-name-prefix: "schedule-virtual-"
+      threads:
+        virtual:
+          enabled: true
 
   datasource:
     url: jdbc:postgresql://localhost:5432/demo
