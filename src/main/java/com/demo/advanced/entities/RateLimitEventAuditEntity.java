@@ -1,4 +1,4 @@
-package com.demo.advanced.dynamodb.entities;
+package com.demo.advanced.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

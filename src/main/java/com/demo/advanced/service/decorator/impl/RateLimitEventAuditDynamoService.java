@@ -1,9 +1,9 @@
-package com.demo.advanced.events.service.impl;
+package com.demo.advanced.service.decorator.impl;
 
 import com.demo.advanced.dto.event.RateLimitEvent;
-import com.demo.advanced.dynamodb.mapper.RateLimitEventAuditMapper;
-import com.demo.advanced.dynamodb.repository.RateLimitEventAuditRepository;
-import com.demo.advanced.events.service.RateLimitEventAuditService;
+import com.demo.advanced.service.mapper.ratelimiteventaudit.RateLimitEventAuditMapper;
+import com.demo.advanced.repository.RateLimitEventAuditRepository;
+import com.demo.advanced.service.RateLimitEventAuditService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 @Service("rateLimitEventAuditDynamoService")
 @RequiredArgsConstructor
 public class RateLimitEventAuditDynamoService implements RateLimitEventAuditService {
+
     private final RateLimitEventAuditRepository repository;
     private final RateLimitEventAuditMapper mapper;
 

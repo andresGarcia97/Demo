@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableJpaRepositories({ "com.demo.advanced.repository" })
 @EnableTransactionManagement
-public class DatabaseConfiguration {}
+@EnableJpaRepositories({ "com.demo.advanced.repository" })
+public class DatabaseConfig {}

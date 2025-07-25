@@ -1,4 +1,4 @@
-package com.demo.advanced.events.service;
+package com.demo.advanced.service;
 
 import com.demo.advanced.dto.event.RateLimitEvent;
 

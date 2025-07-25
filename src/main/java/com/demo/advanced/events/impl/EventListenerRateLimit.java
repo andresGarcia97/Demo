@@ -1,7 +1,7 @@
 package com.demo.advanced.events.impl;
 
 import com.demo.advanced.dto.event.RateLimitEvent;
-import com.demo.advanced.events.service.RateLimitEventAuditService;
+import com.demo.advanced.service.RateLimitEventAuditService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;

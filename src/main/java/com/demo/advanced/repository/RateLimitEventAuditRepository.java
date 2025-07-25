@@ -1,6 +1,6 @@
-package com.demo.advanced.dynamodb.repository;
+package com.demo.advanced.repository;
 
-import com.demo.advanced.dynamodb.entities.RateLimitEventAuditEntity;
+import com.demo.advanced.entities.RateLimitEventAuditEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;

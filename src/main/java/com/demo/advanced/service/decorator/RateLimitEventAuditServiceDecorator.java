@@ -1,7 +1,7 @@
-package com.demo.advanced.events.service.decorator;
+package com.demo.advanced.service.decorator;
 
 import com.demo.advanced.dto.event.RateLimitEvent;
-import com.demo.advanced.events.service.RateLimitEventAuditService;
+import com.demo.advanced.service.RateLimitEventAuditService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Primary
 public class RateLimitEventAuditServiceDecorator implements RateLimitEventAuditService {
+
     private final RateLimitEventAuditService logService;
     private final RateLimitEventAuditService dynamoService;
     private final boolean useDynamo;
