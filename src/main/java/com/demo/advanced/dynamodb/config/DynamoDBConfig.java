@@ -15,7 +15,7 @@ import java.net.URI;
 @Configuration
 public class DynamoDBConfig {
 
-    @Value("${aws.dynamodb.endpoint:}")
+    @Value("${aws.dynamodb.endpoint}")
     private String dynamoEndpoint;
 
     @Value("${aws.dynamodb.region:us-east-1}")
@@ -23,11 +23,10 @@ public class DynamoDBConfig {
 
     @Bean
     public DynamoDbClient dynamoDbClient() {
-        // Se obtiene directamente el builder de DynamoDbClient
+
         var builder = DynamoDbClient.builder()
                 .region(Region.of(region));
 
-        // Si el endpoint no está vacío, usar DynamoDB local
         if (dynamoEndpoint != null && !dynamoEndpoint.isBlank()) {
             builder.endpointOverride(URI.create(dynamoEndpoint))
                     .credentialsProvider(
@@ -37,7 +36,7 @@ public class DynamoDBConfig {
                     );
         } else {
             // Usa credenciales reales de AWS (~/.aws/credentials)
-            builder.credentialsProvider(DefaultCredentialsProvider.create());
+            builder.credentialsProvider(DefaultCredentialsProvider.builder().build());
         }
 
         return builder.build();
