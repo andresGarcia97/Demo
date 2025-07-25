@@ -14,8 +14,8 @@ application:
       refillRate: 1
       timeInMinutes: 2
   scheduled:
-    clean: "0/10 * * ? * *" #Every 10 seconds starting at :00 second after the minute
-    interval: "15000" #15 seconds
+    #Every 15 seconds starting at :00 second after the minute
+    clean: "-" #"0/15 * * ? * *"
 
 logging:
   level:

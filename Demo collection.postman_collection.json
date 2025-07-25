@@ -553,6 +553,24 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Actuator Scheduledtasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/actuator/scheduledtasks",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"actuator",
+								"scheduledtasks"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

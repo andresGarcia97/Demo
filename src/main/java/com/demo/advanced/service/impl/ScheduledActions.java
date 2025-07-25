@@ -16,9 +16,4 @@ public class ScheduledActions {
         log.info("Scheduled at {}", LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
     }
 
-    @Scheduled(fixedDelayString = "${application.scheduled.interval}")
-    public void intervalScheduled(){
-        log.info("Interval at {}", LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-    }
-
 }
