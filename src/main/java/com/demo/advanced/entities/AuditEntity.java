@@ -13,7 +13,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbParti
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class EventAuditEntity {
+public class AuditEntity {
 
     private String key;
     private String eventDate;

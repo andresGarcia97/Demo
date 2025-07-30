@@ -68,7 +68,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 		if(destiny != null && origin != null && TransactionType.TRANSFERENCIA.equals(toValidate.getType())) {
 
-			log.info("toValidate {}", toValidate);
+			log.info("createTransaction :: toValidate {}", toValidate);
 
 			accountBankService.updateBalance(destiny);
 			accountBankService.updateBalance(origin);
@@ -78,7 +78,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 			final Transaction copyRetiro = new Transaction(toValidate, TransactionType.RETIRO);  
 			final TransactionEntity savedRetiro = transactionRepository.saveAndFlush(entityMapper.toEntity(copyRetiro));
-			log.info("saveAndFlush :: consignacionId: {}, retiroId: {}", savedConsignacion.getId(), savedRetiro.getId());
+			log.info("createTransaction :: consignacionId: {}, retiroId: {}", savedConsignacion.getId(), savedRetiro.getId());
 		}
 
 		final TransactionEntity saved = transactionRepository.saveAndFlush(entityMapper.toEntity(toValidate));

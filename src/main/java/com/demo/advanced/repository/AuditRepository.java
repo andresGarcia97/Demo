@@ -1,6 +1,6 @@
 package com.demo.advanced.repository;
 
-import com.demo.advanced.entities.EventAuditEntity;
+import com.demo.advanced.entities.AuditEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -17,16 +17,16 @@ import java.time.Duration;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-public class EventAuditRepository implements CommandLineRunner {
+public class AuditRepository implements CommandLineRunner {
 
     private static final String RATE_LIMIT_EVENT_AUDIT_TABLE = "EventAudit";
 
     private final DynamoDbClient dynamoDbClient;
     private final DynamoDbEnhancedClient dynamoDbEnhancedClient;
 
-    public void save(EventAuditEntity entity) {
-        final DynamoDbTable<EventAuditEntity> table =
-                dynamoDbEnhancedClient.table(RATE_LIMIT_EVENT_AUDIT_TABLE, TableSchema.fromBean(EventAuditEntity.class));
+    public void save(AuditEntity entity) {
+        final DynamoDbTable<AuditEntity> table =
+                dynamoDbEnhancedClient.table(RATE_LIMIT_EVENT_AUDIT_TABLE, TableSchema.fromBean(AuditEntity.class));
         table.putItem(entity);
     }
 
@@ -46,8 +46,8 @@ public class EventAuditRepository implements CommandLineRunner {
 
     private void createTable() {
 
-        final DynamoDbTable<EventAuditEntity> table =
-                dynamoDbEnhancedClient.table(RATE_LIMIT_EVENT_AUDIT_TABLE, TableSchema.fromBean(EventAuditEntity.class));
+        final DynamoDbTable<AuditEntity> table =
+                dynamoDbEnhancedClient.table(RATE_LIMIT_EVENT_AUDIT_TABLE, TableSchema.fromBean(AuditEntity.class));
 
         table.createTable();
 
