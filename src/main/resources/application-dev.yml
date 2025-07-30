@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/demo
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+
+featureflag:
+  audit:
+    dynamo: true   # true para usar DynamoDB

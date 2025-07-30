@@ -1,5 +1,4 @@
 spring:
-  profiles: cert
 
   datasource:
     url: jdbc:postgresql://localhost:5432/demo
@@ -40,3 +39,7 @@ management:
       show-values: always
     configprops:
       show-values: always
+
+featureflag:
+  audit:
+    dynamo: true   # true para usar DynamoDB

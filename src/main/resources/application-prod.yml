@@ -1,5 +1,4 @@
 spring:
-  profiles: prod
 
   datasource:
     url: jdbc:postgresql://localhost:5432/demo
@@ -42,3 +41,7 @@ management:
       show-values: never
     mappings:
       access: none
+
+featureflag:
+  audit:
+    dynamo: true   # true para usar DynamoDB
