@@ -1,7 +1,6 @@
 package com.demo.advanced.entities;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,15 +9,15 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
 @DynamoDbBean
-@Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class RateLimitEventAuditEntity {
+public class EventAuditEntity {
 
     private String key;
     private String eventDate;
+    private String description;
 
     @DynamoDbPartitionKey
     @DynamoDbAttribute("key")
@@ -30,4 +29,10 @@ public class RateLimitEventAuditEntity {
     public String getEventDate() {
         return eventDate;
     }
+
+    @DynamoDbAttribute("description")
+    public String getDescription() {
+        return description;
+    }
+
 }

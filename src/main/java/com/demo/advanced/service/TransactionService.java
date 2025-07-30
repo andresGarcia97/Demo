@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TransactionService {
 
-	TransactionResponse saveAndFlush(TransactionRequest transactionResponse);
+	TransactionResponse createTransaction(TransactionRequest transactionResponse);
 
 	List<TransactionResponse> findAllByAccountId(Long accountId);
 

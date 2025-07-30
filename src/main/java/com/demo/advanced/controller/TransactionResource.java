@@ -27,7 +27,7 @@ public class TransactionResource {
 	@Logging
 	@PostMapping("")
 	public ResponseEntity<TransactionResponse> createTransaction(@RequestBody final TransactionRequest transaction) {
-		return ResponseEntity.ok(transactionService.saveAndFlush(transaction));
+		return ResponseEntity.ok(transactionService.createTransaction(transaction));
 	}
 
 	@RateLimited(RateLimitType.ACCOUNT)

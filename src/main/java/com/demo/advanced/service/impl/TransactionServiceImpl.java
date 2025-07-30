@@ -1,6 +1,8 @@
 package com.demo.advanced.service.impl;
 
 import com.demo.advanced.domain.AccountBank;
+import com.demo.advanced.dto.event.TransactionEvent;
+import com.demo.advanced.events.EventPublisher;
 import com.demo.advanced.exception.AccountBankException;
 import com.demo.advanced.domain.Transaction;
 import com.demo.advanced.exception.TransactionException;
@@ -24,12 +26,11 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
 
 	private final TransactionRepository transactionRepository;
-
+	private final EventPublisher eventPublisher;
 	private final AccountBankService accountBankService;
 
 	private final TransactionQueriesMapper queriesMapper;
@@ -37,7 +38,8 @@ public class TransactionServiceImpl implements TransactionService {
 	private final TransactionEntityMapper entityMapper;
 
 	@Override
-	public TransactionResponse saveAndFlush(final TransactionRequest transaction) {
+	@Transactional
+	public TransactionResponse createTransaction(final TransactionRequest transaction) {
 
 		final Optional<AccountBank> existAccountOrigin = accountBankService.findById(transaction.accountBankOrigin());
 		final Optional<AccountBank> existAccountDestiny = accountBankService.findById(transaction.accountBankDestiny());
@@ -80,6 +82,8 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 
 		final TransactionEntity saved = transactionRepository.saveAndFlush(entityMapper.toEntity(toValidate));
+
+		eventPublisher.publishEventTransaction(new TransactionEvent(transaction, saved.getTransactionDate()));
 
 		return queriesMapper.toDto(saved);
 	}

@@ -92,7 +92,7 @@ management:
       access: none
 
 featureflag:
-  ratelimit:
+  audit:
     dynamo: true   # true para usar DynamoDB
 
 aws:
