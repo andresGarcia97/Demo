@@ -4,10 +4,16 @@ import com.demo.advanced.dto.event.RateLimitEvent;
 import com.demo.advanced.dto.event.TransactionEvent;
 import com.demo.advanced.service.AuditService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Slf4j
-@Service("eventAuditLogService")
+@Service
+@ConditionalOnProperty(
+        name = "featureflag.audit.dynamo",
+        havingValue = "false",
+        matchIfMissing = true
+)
 public class AuditLogService implements AuditService {
 
     @Override

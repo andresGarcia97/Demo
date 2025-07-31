@@ -93,7 +93,7 @@ management:
 
 featureflag:
   audit:
-    dynamo: true   # true para usar DynamoDB
+    dynamo: false   # true para usar DynamoDB
 
 aws:
   dynamodb:

@@ -7,4 +7,4 @@ spring:
 
 featureflag:
   audit:
-    dynamo: true   # true para usar DynamoDB
+    dynamo: false   # true para usar DynamoDB

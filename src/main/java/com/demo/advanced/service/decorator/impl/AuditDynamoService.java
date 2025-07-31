@@ -7,9 +7,15 @@ import com.demo.advanced.service.AuditService;
 import com.demo.advanced.service.mapper.eventaudit.RateLimitEventAuditMapper;
 import com.demo.advanced.service.mapper.eventaudit.TransactionEventAuditMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
-@Service("eventAuditDynamoService")
+@Service
+@ConditionalOnProperty(
+        name = "featureflag.audit.dynamo",
+        havingValue = "true"
+)
 @RequiredArgsConstructor
 public class AuditDynamoService implements AuditService {
 
