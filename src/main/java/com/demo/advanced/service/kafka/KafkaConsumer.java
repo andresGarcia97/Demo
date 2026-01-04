@@ -20,7 +20,7 @@ public class KafkaConsumer {
                        @Header(KafkaHeaders.RECEIVED_PARTITION) int partition,
                        @Header(KafkaHeaders.OFFSET) long offset) {
 
-        log.info(">>> Mensaje recibido={}, partition={}, offset={}", message, partition, offset);
+        log.info("partition={}, offset={} >> {}", partition, offset, message);
     }
 
 }

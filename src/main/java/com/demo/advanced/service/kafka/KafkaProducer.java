@@ -31,8 +31,7 @@ public class KafkaProducer {
 
             kafkaTemplate.send(externalEvent)
                     .orTimeout(10, TimeUnit.SECONDS)
-                    .thenAccept(result -> log.info("externalEvent={} published successfully, offset={}",
-                            externalEvent.value(), result.getRecordMetadata().offset()))
+                    .thenAccept(result -> log.info("offset={} << {}", result.getRecordMetadata().offset(), externalEvent.value()))
                     .exceptionally(ex -> {
                         log.error("Error publishing externalEvent={} with ErrorMsg: {}", externalEvent, ex.getMessage(), ex);
                         return null;
