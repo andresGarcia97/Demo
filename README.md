@@ -26,6 +26,7 @@ Guías sobre patrones de diseño, técnicas y herramientas específicas.
 * [Interfaces 'Aware' de Spring](https://blog.stackademic.com/springs-aware-interfaces-let-your-beans-awaken-50f734e7edf0)
 * [Guía Interactiva para Rate Limiting](https://blog.sagyamthapa.com.np/interactive-guide-to-rate-limiting)
 * [Técnicas de Debugging en Java](https://levelup.gitconnected.com/debugging-java-applications-the-techniques-i-wish-i-knew-sooner-c2b6d3feeeac)
+* [TransactionEventListener Spring boot](https://dev.to/haraf/understanding-transactioneventlistener-in-spring-boot-use-cases-real-time-examples-and-4aof)
 
 ## 🔗 Recursos Adicionales
 
