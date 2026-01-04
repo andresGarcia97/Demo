@@ -3,7 +3,6 @@ package com.demo.advanced.config;
 import com.demo.advanced.service.kafka.AvroToPojoConverter;
 import io.apicurio.registry.serde.avro.AvroKafkaDeserializer;
 import io.apicurio.registry.serde.avro.ReflectAvroDatumProvider;
-import io.apicurio.registry.serde.config.SerdeConfig;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -24,6 +23,8 @@ import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static io.apicurio.registry.resolver.config.SchemaResolverConfig.REGISTRY_URL;
 
 @Configuration
 @RequiredArgsConstructor
@@ -52,7 +53,7 @@ public class KafkaConsumerConfig {
         consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, consumerGroup);
         consumerProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
-        consumerProps.put(SerdeConfig.REGISTRY_URL, registryUrl);
+        consumerProps.put(REGISTRY_URL, registryUrl);
         consumerProps.put("apicurio.registry.serde.as-confluent", "true");
         consumerProps.put("apicurio.registry.avro.datum-provider", ReflectAvroDatumProvider.class.getName());
         consumerProps.put("apicurio.registry.serde.avro-encoding", "BINARY");
@@ -100,7 +101,7 @@ public class KafkaConsumerConfig {
         // Recoverer
         final DeadLetterPublishingRecoverer recoverer = new DeadLetterPublishingRecoverer(
                 dltTemplate,
-                (r, e) -> new TopicPartition(r.topic() + dltTopicSuffix, r.partition())
+                (r, e) -> new TopicPartition(r.topic() + dltTopicSuffix, -1)
         );
 
         DefaultErrorHandler errorHandler = new DefaultErrorHandler(recoverer, new FixedBackOff(0L, 0));

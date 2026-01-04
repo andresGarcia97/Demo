@@ -10,6 +10,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -46,15 +47,18 @@ public class KafkaProducer {
     private ProducerRecord<String, TransactionExternalEvent> buildEvent(final TransactionEvent transactionEvent) {
 
         final String transactionType = transactionEvent.type().name();
-        final String dateTransaction = transactionEvent.date().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-        final String key = transactionType + "-" + dateTransaction;
+        final String keyDate = transactionEvent.date()
+                .toLocalDateTime()
+                .truncatedTo(ChronoUnit.SECONDS)
+                .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        final String key = transactionType + "-" + keyDate;
 
         final TransactionExternalEvent externalEvent = TransactionExternalEvent.newBuilder()
                 .setType(transactionType)
                 .setAmount(transactionEvent.amount().doubleValue())
                 .setOrigin(transactionEvent.origin())
                 .setDestiny(transactionEvent.destiny())
-                .setDate(dateTransaction)
+                .setDate(transactionEvent.date().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME))
                 .build();
 
         return new ProducerRecord<>(transactionsTopic, key, externalEvent);
