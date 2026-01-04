@@ -3,7 +3,9 @@ package com.demo.advanced.domain;
 import com.demo.advanced.domain.enumeration.AccountState;
 import com.demo.advanced.domain.enumeration.AccountType;
 import com.demo.advanced.exception.AccountBankException;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
@@ -11,7 +13,9 @@ import java.time.ZonedDateTime;
 import java.util.Random;
 
 @Slf4j
-@Data
+@Getter
+@Setter
+@ToString
 public class AccountBank {
 
 	private final Random random = new Random();

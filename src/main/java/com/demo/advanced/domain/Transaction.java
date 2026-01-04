@@ -2,9 +2,10 @@ package com.demo.advanced.domain;
 
 import com.demo.advanced.domain.enumeration.TransactionType;
 import com.demo.advanced.exception.TransactionException;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
@@ -12,7 +13,9 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Slf4j
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 public class Transaction {
 
