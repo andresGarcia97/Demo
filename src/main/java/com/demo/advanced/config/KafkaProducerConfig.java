@@ -36,16 +36,13 @@ public class KafkaProducerConfig {
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, AvroKafkaSerializer.class);
 
-        // Configuración Apicurio
         props.put(SchemaResolverConfig.REGISTRY_URL, registryUrl);
-        props.put(SchemaResolverConfig.AUTO_REGISTER_ARTIFACT, Boolean.TRUE);
-        props.put(SchemaResolverConfig.AUTO_REGISTER_ARTIFACT_IF_EXISTS, "CREATE_VERSION");
-        props.put(SchemaResolverConfig.ARTIFACT_RESOLVER_STRATEGY, "io.apicurio.registry.serde.strategy.TopicIdStrategy");
+        props.put(SchemaResolverConfig.AUTO_REGISTER_ARTIFACT, "true");
+        props.put(SchemaResolverConfig.CHECK_PERIOD_MS, "30000");
+        props.put(SchemaResolverConfig.FIND_LATEST_ARTIFACT, "true");
         props.put("apicurio.registry.serde.as-confluent", "true");
 
-        // Evitar duplicados
-        props.put("apicurio.registry.serde.check-registry-state", "true");
-        props.put("apicurio.registry.serde.avro-encoding", "BINARY");
+        props.put("apicurio.registry.avro-datum-provider.canonicalize", "true");
 
         // Asignacion de esquema especifico
         props.put(SchemaResolverConfig.EXPLICIT_ARTIFACT_GROUP_ID, "transactions");
