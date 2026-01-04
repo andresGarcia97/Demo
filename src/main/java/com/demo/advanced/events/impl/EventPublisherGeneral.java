@@ -3,6 +3,7 @@ package com.demo.advanced.events.impl;
 import com.demo.advanced.dto.event.RateLimitEvent;
 import com.demo.advanced.dto.event.TransactionEvent;
 import com.demo.advanced.events.EventPublisher;
+import com.demo.advanced.service.kafka.KafkaProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class EventPublisherGeneral implements EventPublisher, ApplicationContextAware {
 
     private final ApplicationEventPublisher applicationEventPublisher;
+    private final KafkaProducer kafkaProducer;
     private ApplicationContext applicationContext;
 
     @Override
@@ -29,7 +31,7 @@ public class EventPublisherGeneral implements EventPublisher, ApplicationContext
     @Override
     public void publishEventTransaction(final TransactionEvent transactionRequest) {
         applicationEventPublisher.publishEvent(transactionRequest);
+        kafkaProducer.sendTransactionEvent(transactionRequest);
     }
-
 
 }
