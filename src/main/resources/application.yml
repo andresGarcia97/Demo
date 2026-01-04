@@ -87,6 +87,20 @@ spring:
       properties:
         apicurio.registry.url: ${apicurio.registry.url}
         apicurio.registry.auto-register: true
+    consumer:
+      group-id: demo-app-consumer
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      topics:
+        transactions: transactions-events
+        retry:
+          attempts: 4
+          timeoutMilliseconds: 60000
+          retryTopicSuffix: -demo-app-retry
+          dltTopicSuffix: -demo-app-dlt
+          backoff:
+            delayMilliseconds: 3000
+            multiplier: 3
 
 # --- CONFIGURACIÓN ESPECÍFICA DE APICURIO ---
 apicurio:

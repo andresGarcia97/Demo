@@ -8,6 +8,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -40,6 +41,7 @@ public class KafkaProducerConfig {
         props.put(SchemaResolverConfig.AUTO_REGISTER_ARTIFACT, Boolean.TRUE);
         props.put(SchemaResolverConfig.AUTO_REGISTER_ARTIFACT_IF_EXISTS, "CREATE_VERSION");
         props.put(SchemaResolverConfig.ARTIFACT_RESOLVER_STRATEGY, "io.apicurio.registry.serde.strategy.TopicIdStrategy");
+        props.put("apicurio.registry.serde.as-confluent", "true");
 
         // Evitar duplicados
         props.put("apicurio.registry.serde.check-registry-state", "true");
@@ -53,6 +55,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
+    @Primary
     public KafkaTemplate<String, TransactionExternalEvent> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
