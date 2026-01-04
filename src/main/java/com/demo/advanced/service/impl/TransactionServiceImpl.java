@@ -92,7 +92,6 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public List<TransactionResponse> findAllByAccountId(Long accountId) {
 
 		final var account = accountBankService.findById(accountId)

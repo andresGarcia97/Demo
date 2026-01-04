@@ -1,6 +1,5 @@
 package com.demo.advanced.service.impl;
 
-
 import com.demo.advanced.domain.AccountBank;
 import com.demo.advanced.exception.AccountBankException;
 import com.demo.advanced.dto.response.AccountBankResponse;
@@ -67,13 +66,11 @@ public class AccountBankServiceImpl implements AccountBankService {
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public List<AccountBankResponse> findAllByClientId(Long clientId) {
 		return queriesMapper.toDtoList(accountBankRepository.findAllByClientId(clientId));
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public Optional<AccountBank> findById(final Long accountId) {
 		return accountId == null
 				? Optional.empty()

@@ -71,7 +71,6 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public Client findById(Long clientId) {
 		return clientRepository.findById(clientId)
 				.map(entityMapper::toDomain)
