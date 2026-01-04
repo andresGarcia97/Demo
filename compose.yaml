@@ -114,15 +114,33 @@ services:
     depends_on:
       - zookeeper
 
-  redpanda-console:
-    #restart: always
-    image: docker.redpanda.com/redpandadata/console:latest
+  conduktor-console:
+    image: conduktor/conduktor-console:latest
+    container_name: conduktor-console
     ports:
       - "8084:8080"
     environment:
-      - KAFKA_BROKERS=kafka:9092
+      - CDK_CONSOLE_PORT=8080
+      # --- CONFIGURACIÓN DE BASE DE DATOS (OBLIGATORIA) ---
+      # Conectamos al servicio 'postgres' que definiste arriba.
+      # Usuario: admin, Pass: admin, Host: postgres, Port: 5432, DB: demo
+      - CDK_DATABASE_URL=postgresql://admin:admin@postgres:5432/demo?sslmode=disable
+
+      # --- CONEXIÓN A KAFKA ---
+      - CDK_CLUSTERS_0_ID=local-kafka
+      - CDK_CLUSTERS_0_NAME=Local Kafka
+      - CDK_CLUSTERS_0_COLOR=#6A1B9A
+      - CDK_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+
+      # --- CONEXIÓN A APICURIO (Modo Compatibilidad) ---
+      - CDK_CLUSTERS_0_SCHEMAREGISTRY_URL=http://apicurio-registry:8080/apis/ccompat/v7
     depends_on:
-      - kafka
+      kafka:
+        condition: service_started
+      apicurio-registry:
+        condition: service_started
+      postgres:
+        condition: service_healthy
 
 
 volumes:
