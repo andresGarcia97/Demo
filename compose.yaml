@@ -1,6 +1,8 @@
+# docker compose up -d --wait
+
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:16-alpine
     environment:
       - POSTGRES_DB=demo
       - POSTGRES_PASSWORD=admin
@@ -61,6 +63,66 @@ services:
       DYNAMO_ENDPOINT: http://dynamodb-local:8000
     depends_on:
       - dynamodb-local
+
+  # Backend de Apicurio Registry (Modo Memoria)
+  apicurio-registry:
+    image: apicurio/apicurio-registry:3.1.6
+    container_name: apicurio-registry
+    ports:
+      - "8082:8080"
+    environment:
+    - QUARKUS_PROFILE=dev
+    # Habilitar CORS para permitir que la UI (puerto 8083) hable con el Backend (puerto 8082)
+    - QUARKUS_HTTP_CORS=true
+    - QUARKUS_HTTP_CORS_ORIGINS=http://localhost:8083
+    - QUARKUS_HTTP_CORS_METHODS=GET,POST,PUT,DELETE,OPTIONS,HEAD,PATCH
+    - QUARKUS_HTTP_CORS_HEADERS=Content-Type,Authorization,X-Registry-Version
+
+  # Interfaz de Usuario
+  apicurio-registry-ui:
+    image: apicurio/apicurio-registry-ui:3.1.6
+    container_name: apicurio-registry-ui
+    ports:
+      - "8083:8080"
+    environment:
+      # Apuntar al backend en localhost (desde la perspectiva del navegador)
+      - REGISTRY_API_URL=http://localhost:8082/apis/registry/v3
+    depends_on:
+      - apicurio-registry
+
+  zookeeper:
+    #restart: always
+    image: docker.io/bitnami/zookeeper:3.8
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka:
+    #restart: always
+    image: docker.io/bitnami/kafka:3.3
+    ports:
+      - "9093:9093"
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
+    depends_on:
+      - zookeeper
+
+  redpanda-console:
+    #restart: always
+    image: docker.redpanda.com/redpandadata/console:latest
+    ports:
+      - "8084:8080"
+    environment:
+      - KAFKA_BROKERS=kafka:9092
+    depends_on:
+      - kafka
 
 
 volumes:

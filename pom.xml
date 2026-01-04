@@ -119,6 +119,28 @@
 			<version>2.32.6</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.apicurio</groupId>
+			<artifactId>apicurio-registry-avro-serde-kafka</artifactId>
+			<version>3.1.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>1.12.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.apicurio</groupId>
+			<artifactId>apicurio-registry-java-sdk</artifactId>
+			<version>3.1.6</version>
+		</dependency>
 
 	</dependencies>
 
