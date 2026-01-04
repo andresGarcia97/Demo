@@ -31,6 +31,10 @@ public class EventPublisherGeneral implements EventPublisher, ApplicationContext
     @Override
     public void publishEventTransaction(final TransactionEvent transactionRequest) {
         applicationEventPublisher.publishEvent(transactionRequest);
+    }
+
+    @Override
+    public void publishExternalTransaction(final TransactionEvent transactionRequest) {
         kafkaProducer.sendTransactionEvent(transactionRequest);
     }
 

@@ -83,7 +83,6 @@ public class AccountBankServiceImpl implements AccountBankService {
 	@Override
 	public void updateBalance(final AccountBank account) {
 		accountBankRepository.updateBalanceById(account.getBalance(), account.getId());
-		accountBankRepository.flush();
 	}
 
 }

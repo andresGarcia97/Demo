@@ -7,4 +7,6 @@ public interface EventPublisher {
     void publishRateLimitEvent(String key);
 
     void publishEventTransaction(TransactionEvent transactionRequest);
+
+    void publishExternalTransaction(TransactionEvent transactionRequest);
 }

@@ -38,7 +38,7 @@ public class TransactionServiceImpl implements TransactionService {
 	private final TransactionEntityMapper entityMapper;
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public TransactionResponse createTransaction(final TransactionRequest transaction) {
 
 		final Optional<AccountBank> existAccountOrigin = accountBankService.findById(transaction.accountBankOrigin());
@@ -49,41 +49,44 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 
 		final Transaction toValidate = domainMapper.toDomain(transaction);
+		log.info("createTransaction :: toValidate {}", toValidate);
 
 		existAccountOrigin.ifPresent(toValidate::setOrigin);
 		existAccountDestiny.ifPresent(toValidate::setDestiny);
 
-		toValidate.validateCreation();
+		final Transaction validTransaction = toValidate.validateCreation();
 
-		final AccountBank destiny = toValidate.getDestiny();
-		final AccountBank origin = toValidate.getOrigin();
+		final AccountBank destiny = validTransaction.getDestiny();
+		final AccountBank origin = validTransaction.getOrigin();
 
-		if(destiny != null && TransactionType.CONSIGNACION.equals(toValidate.getType())) {
+		if(destiny != null && TransactionType.CONSIGNACION.equals(validTransaction.getType())) {
 			accountBankService.updateBalance(destiny);
 		}
 
-		if(origin != null && TransactionType.RETIRO.equals(toValidate.getType())) {
+		if(origin != null && TransactionType.RETIRO.equals(validTransaction.getType())) {
 			accountBankService.updateBalance(origin);
 		}
 
-		if(destiny != null && origin != null && TransactionType.TRANSFERENCIA.equals(toValidate.getType())) {
+		if(destiny != null && origin != null && TransactionType.TRANSFERENCIA.equals(validTransaction.getType())) {
 
-			log.info("createTransaction :: toValidate {}", toValidate);
+			log.info("createTransaction :: validTransaction {}", validTransaction);
 
 			accountBankService.updateBalance(destiny);
 			accountBankService.updateBalance(origin);
 
-			final Transaction copyConsignacion = new Transaction(toValidate, TransactionType.CONSIGNACION);
-			final TransactionEntity savedConsignacion = transactionRepository.saveAndFlush(entityMapper.toEntity(copyConsignacion));
+			final Transaction copyConsignacion = new Transaction(validTransaction, TransactionType.CONSIGNACION);
+			final TransactionEntity savedConsignacion = transactionRepository.save(entityMapper.toEntity(copyConsignacion));
 
-			final Transaction copyRetiro = new Transaction(toValidate, TransactionType.RETIRO);  
-			final TransactionEntity savedRetiro = transactionRepository.saveAndFlush(entityMapper.toEntity(copyRetiro));
+			final Transaction copyRetiro = new Transaction(validTransaction, TransactionType.RETIRO);
+			final TransactionEntity savedRetiro = transactionRepository.save(entityMapper.toEntity(copyRetiro));
 			log.info("createTransaction :: consignacionId: {}, retiroId: {}", savedConsignacion.getId(), savedRetiro.getId());
 		}
 
-		final TransactionEntity saved = transactionRepository.saveAndFlush(entityMapper.toEntity(toValidate));
+		final TransactionEntity saved = transactionRepository.save(entityMapper.toEntity(validTransaction));
 
-		eventPublisher.publishEventTransaction(new TransactionEvent(transaction, saved.getTransactionDate()));
+		final TransactionEvent transactionEvent = new TransactionEvent(transaction, saved.getTransactionDate());
+		eventPublisher.publishEventTransaction(transactionEvent);
+		eventPublisher.publishExternalTransaction(transactionEvent);
 
 		return queriesMapper.toDto(saved);
 	}

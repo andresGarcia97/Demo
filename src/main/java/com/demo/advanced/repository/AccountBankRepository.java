@@ -16,7 +16,7 @@ public interface AccountBankRepository extends JpaRepository<AccountBankEntity, 
 
 	Optional<AccountBankEntity> findByNumber(Long number);
 
-	@Modifying
+	@Modifying(clearAutomatically = true, flushAutomatically = true)
 	@Transactional
 	@Query("UPDATE AccountBankEntity ab SET ab.balance = ?1 WHERE ab.id = ?2")
 	void updateBalanceById(BigDecimal balance, Long id);
