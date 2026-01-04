@@ -1,0 +1,29 @@
+{
+  "type": "record",
+  "name": "TransactionExternalEvent",
+  "namespace": "com.demo.advanced.dto.event",
+  "fields": [
+    {
+      "name": "type",
+      "type": "string"
+    },
+    {
+      "name": "amount",
+      "type": "double"
+    },
+    {
+      "name": "origin",
+      "type": ["null", "long"],
+      "default": null
+    },
+    {
+      "name": "destiny",
+      "type": ["null", "long"],
+      "default": null
+    },
+    {
+      "name": "date",
+      "type": "string"
+    }
+  ]
+}

@@ -8,3 +8,12 @@ spring:
 featureflag:
   audit:
     dynamo: false   # true para usar DynamoDB
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    mappings:
+      access: read_only

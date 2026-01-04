@@ -76,6 +76,25 @@ spring:
       host: localhost
       port: 6379
 
+  kafka:
+    bootstrap-servers: localhost:9093
+    # Configuración opcional si decides mover configuración de la clase Java al YAML en el futuro
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.apicurio.registry.serde.avro.AvroKafkaSerializer
+      topics:
+        transactions: transactions-events
+      properties:
+        apicurio.registry.url: ${apicurio.registry.url}
+        apicurio.registry.auto-register: true
+
+# --- CONFIGURACIÓN ESPECÍFICA DE APICURIO ---
+apicurio:
+  registry:
+    # URL del Backend de Apicurio (Puerto 8082)
+    # IMPORTANTE: Debe terminar en /apis/registry/v3 para la versión 3.x
+    url: http://localhost:8082/apis/registry/v3
+
 management:
   endpoints:
     web:
@@ -93,10 +112,10 @@ management:
 
 featureflag:
   audit:
-    dynamo: false   # true para usar DynamoDB
+    dynamo: false
 
 aws:
   dynamodb:
-    endpoint: http://localhost:8000   # Usa esto si es DynamoDB Local, deja vacío si es AWS real
+    endpoint: http://localhost:8000
     region: us-east-1
     tableName: RateLimitEventAudit
