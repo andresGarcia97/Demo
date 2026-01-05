@@ -1,4 +1,4 @@
-package com.demo.advanced.config;
+package com.demo.advanced.config.kafka;
 
 import com.demo.advanced.dto.event.TransactionExternalEvent;
 import io.apicurio.registry.resolver.config.SchemaResolverConfig;
@@ -35,6 +35,8 @@ public class KafkaProducerConfig {
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, AvroKafkaSerializer.class);
+
+        props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, TraceIdProducerInterceptor.class.getName());
 
         props.put(SchemaResolverConfig.REGISTRY_URL, registryUrl);
         props.put(SchemaResolverConfig.AUTO_REGISTER_ARTIFACT, "true");

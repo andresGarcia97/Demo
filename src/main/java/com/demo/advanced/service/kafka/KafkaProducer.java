@@ -5,6 +5,7 @@ import com.demo.advanced.dto.event.TransactionExternalEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Component;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
+
+import static com.demo.advanced.config.kafka.TraceIdProducerInterceptor.TRACE_ID_KEY;
 
 @Slf4j
 @Component
@@ -27,14 +30,29 @@ public class KafkaProducer {
 
         try {
 
+            final var traceId = MDC.get(TRACE_ID_KEY);
             final var externalEvent = buildEvent(transactionEvent);
 
             kafkaTemplate.send(externalEvent)
                     .orTimeout(10, TimeUnit.SECONDS)
-                    .thenAccept(result -> log.info("offset={} << {}", result.getRecordMetadata().offset(), externalEvent.value()))
+                    .thenAccept(result -> {
+                        try {
+                            MDC.put(TRACE_ID_KEY, traceId);
+                            log.info("offset={} << {}", result.getRecordMetadata().offset(), externalEvent.value());
+                        }
+                        finally {
+                            MDC.remove(TRACE_ID_KEY);
+                        }
+                    })
                     .exceptionally(ex -> {
-                        log.error("Error publishing externalEvent={} with ErrorMsg: {}", externalEvent, ex.getMessage(), ex);
-                        return null;
+                        try {
+                            MDC.put(TRACE_ID_KEY, traceId);
+                            log.error("Error publishing externalEvent={} with ErrorMsg: {}", externalEvent, ex.getMessage(), ex);
+                            return null;
+                        }
+                        finally {
+                            MDC.remove(TRACE_ID_KEY);
+                        }
                     });
 
         }

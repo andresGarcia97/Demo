@@ -1,4 +1,4 @@
-package com.demo.advanced.config;
+package com.demo.advanced.config.kafka;
 
 import com.demo.advanced.service.kafka.AvroToPojoConverter;
 import io.apicurio.registry.serde.avro.AvroKafkaDeserializer;
