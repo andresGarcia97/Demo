@@ -33,3 +33,13 @@ Guías sobre patrones de diseño, técnicas y herramientas específicas.
 Otros enlaces de interés y buenas prácticas de la comunidad.
 
 * [Post de LinkedIn sobre Buenas Prácticas en Spring Boot](https://www.linkedin.com/posts/gureev-roman_java-springboot-bestpractices-activity-7348753586207490049-pcvI?utm_source=share&utm_medium=member_android&rcm=ACoAADIMSAkBqAZILj7S8_kGx1Nj7MbNhNqz388)
+
+## 📚 Arquitectura Kafka, Avro y Observabilidad
+
+Documentación clave para resolver problemas de serialización, manejo de errores en DLT y trazabilidad distribuida discutidos en el desarrollo.
+
+* [Spring Kafka Error Handling & Dead Letter Publishing](https://docs.spring.io/spring-kafka/reference/kafka/annotation-error-handling.html#dead-letters)
+* [Spring Message Conversion (MessagingMessageConverter)](https://docs.spring.io/spring-kafka/reference/kafka/serdes.html)
+* [Apicurio Registry Serde Configuration](https://www.apicur.io/registry/docs/apicurio-registry/3.1.x/getting-started/assembly-using-kafka-client-serdes.html)
+* [Apicurio Registry UI & Persistence Configuration](https://www.apicur.io/registry/docs/apicurio-registry/3.1.x/getting-started/assembly-configuring-the-registry.html#configuring-registry-ui_registry)
+* [Improved Java Logging with Mapped Diagnostic Context (MDC)](https://www.baeldung.com/mdc-in-log4j-2-logback)
